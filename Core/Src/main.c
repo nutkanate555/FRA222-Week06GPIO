@@ -59,9 +59,11 @@ uint64_t TimeOutputLoop = 0;
 
 //Control
 float Output_need = 1241; //(1V)
-float Kp = 3;
+float Kp = 3.4;
+float Ki = 3;
 float DiffError = 0;
-int32_t Offset = 6060;
+float Integ_now = 0;
+float Offset = 6060;
 
 /* USER CODE END PV */
 
@@ -141,8 +143,9 @@ int main(void)
 		{
 			TimeOutputLoop = micros();
 			// #001
-			DiffError = (Output_need - (float)ADCFeedBack)*Kp;
-			PWMOut = ((DiffError*Kp) + Offset);
+			DiffError = (Output_need - (float)ADCFeedBack);
+			Integ_now = Integ_now + (DiffError*0.001);
+			PWMOut = ((DiffError*Kp) + Offset + (Integ_now*Ki));
 			if (PWMOut > 10000)
 			{PWMOut = 10000;}
 			else if (PWMOut < 0)
