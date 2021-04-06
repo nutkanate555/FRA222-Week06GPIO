@@ -1121,7 +1121,7 @@ int main(void)
  8000d8c:	4a3c      	ldr	r2, [pc, #240]	; (8000e80 <main+0x168>)
  8000d8e:	e9c2 3400 	strd	r3, r4, [r2]
 			// #001
-			DiffError = (Output_need - (float)ADCFeedBack);
+			DiffError = Output_need - ADCFeedBack;
  8000d92:	4b3c      	ldr	r3, [pc, #240]	; (8000e84 <main+0x16c>)
  8000d94:	ed93 7a00 	vldr	s14, [r3]
  8000d98:	4b3b      	ldr	r3, [pc, #236]	; (8000e88 <main+0x170>)
@@ -1131,7 +1131,7 @@ int main(void)
  8000da4:	ee77 7a67 	vsub.f32	s15, s14, s15
  8000da8:	4b38      	ldr	r3, [pc, #224]	; (8000e8c <main+0x174>)
  8000daa:	edc3 7a00 	vstr	s15, [r3]
-			Integ_now = Integ_now + (DiffError*0.001);
+			Integ_now += DiffError*0.001;
  8000dae:	4b38      	ldr	r3, [pc, #224]	; (8000e90 <main+0x178>)
  8000db0:	681b      	ldr	r3, [r3, #0]
  8000db2:	4618      	mov	r0, r3
@@ -1158,20 +1158,20 @@ int main(void)
  8000de8:	4602      	mov	r2, r0
  8000dea:	4b29      	ldr	r3, [pc, #164]	; (8000e90 <main+0x178>)
  8000dec:	601a      	str	r2, [r3, #0]
-			PWMOut = ((DiffError*Kp) + Offset + (Integ_now*Ki));
+			PWMOut = (DiffError*Kp)+(Integ_now*Ki)+Offset;
  8000dee:	4b27      	ldr	r3, [pc, #156]	; (8000e8c <main+0x174>)
  8000df0:	ed93 7a00 	vldr	s14, [r3]
  8000df4:	4b27      	ldr	r3, [pc, #156]	; (8000e94 <main+0x17c>)
  8000df6:	edd3 7a00 	vldr	s15, [r3]
  8000dfa:	ee27 7a27 	vmul.f32	s14, s14, s15
- 8000dfe:	4b26      	ldr	r3, [pc, #152]	; (8000e98 <main+0x180>)
- 8000e00:	edd3 7a00 	vldr	s15, [r3]
- 8000e04:	ee37 7a27 	vadd.f32	s14, s14, s15
- 8000e08:	4b21      	ldr	r3, [pc, #132]	; (8000e90 <main+0x178>)
- 8000e0a:	edd3 6a00 	vldr	s13, [r3]
- 8000e0e:	4b23      	ldr	r3, [pc, #140]	; (8000e9c <main+0x184>)
- 8000e10:	edd3 7a00 	vldr	s15, [r3]
- 8000e14:	ee66 7aa7 	vmul.f32	s15, s13, s15
+ 8000dfe:	4b24      	ldr	r3, [pc, #144]	; (8000e90 <main+0x178>)
+ 8000e00:	edd3 6a00 	vldr	s13, [r3]
+ 8000e04:	4b24      	ldr	r3, [pc, #144]	; (8000e98 <main+0x180>)
+ 8000e06:	edd3 7a00 	vldr	s15, [r3]
+ 8000e0a:	ee66 7aa7 	vmul.f32	s15, s13, s15
+ 8000e0e:	ee37 7a27 	vadd.f32	s14, s14, s15
+ 8000e12:	4b22      	ldr	r3, [pc, #136]	; (8000e9c <main+0x184>)
+ 8000e14:	edd3 7a00 	vldr	s15, [r3]
  8000e18:	ee77 7a27 	vadd.f32	s15, s14, s15
  8000e1c:	eefd 7ae7 	vcvt.s32.f32	s15, s15
  8000e20:	ee17 2a90 	vmov	r2, s15
@@ -1231,8 +1231,8 @@ int main(void)
  8000e8c:	20000058 	.word	0x20000058
  8000e90:	2000005c 	.word	0x2000005c
  8000e94:	20000008 	.word	0x20000008
- 8000e98:	20000010 	.word	0x20000010
- 8000e9c:	2000000c 	.word	0x2000000c
+ 8000e98:	2000000c 	.word	0x2000000c
+ 8000e9c:	20000010 	.word	0x20000010
  8000ea0:	20000000 	.word	0x20000000
  8000ea4:	2000003c 	.word	0x2000003c
 
