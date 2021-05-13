@@ -60,7 +60,7 @@ uint64_t TimeOutputLoop = 0;
 //Control
 float Output_need = 1241; //(1V)
 float Kp = 6.12;
-float Ki = 10;
+float Ki = 100;
 float DiffError = 0;
 float Integ_now = 0;
 float Offset = 6060;
